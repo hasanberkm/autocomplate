@@ -22,28 +22,45 @@
 <script src="assets/js/magicsuggest-min.js"></script>
 
 <script>
+	$base_url = window.location.origin + "/autocomplate/"; //Base URL. E.g https://hasanberkm.com/autocomplate
+	$ms = ""; //For MagicSuggest
+
+	//Starting Magicsuggest Plugin
+	//The search bar will be automatically added to Magicsuggest
 	$(function() {
-		$('#magicsuggest').magicSuggest({
-			data: 'api/transactions.php',
-			allowDuplicates: false,
-			allowFreeEntries: false,
-			maxSuggestions: 3,
-			minChars: 3,
-			noSuggestionText: "Eşleşen Sonuç Bulunamadı.",
-			placeholder: "Bir Ürün Arayın...",
-			method: "post",
+		$ms = $('#magicsuggest').magicSuggest({
+			data: 'api/transactions.php', //API URL
+			method: "post", //Method
+			allowDuplicates: false, //Disallow re-enter the same entry multiple times.
+			allowFreeEntries: false, //Don't let the user enter a value other than the recommended values
+			maxSuggestions: 2, //How many values at most should be displayed in the textarea?
+			noSuggestionText: "Eşleşen Sonuç Bulunamadı.", //Use this attribute to show a message when there are no suggestions.
+			placeholder: "Bir Ürün Arayın...", //Use this attribute to show a placeholder in MagicSuggest textarea.
+			minChars: 2, //Minimum number of characters to enter
+
+			//Sets the helper message for input that is too short of the minChars attribute.
+			minCharsRenderer: function(v){
+				return 'Lütfen en az ' + v + " karakter daha girin.";
+			},
+			
+			//Render the plugin.
+			//'data' variable in the function holds the result.
 			renderer: function(data) {
-				return '<div class="result">' +
+				return '<a href="' + $base_url + 'result.php?s=' + data.name + '"><div class="result">' +
 				'<div class="name" style="width: calc(100% - 102px); float: left; height: 50px;"><img src="assets/uploads/' + data.image + '" class="result_image"/>' + data.name + '</div>' +
 				'<div class="wishlist" style="display: inline-block; font-size: 11px; float: right; height: 50px; text-align: center; line-height: 50px;color: #d1d1d1"></div>' +
 				'<div style="clear:both;"></div>' +
 				'<div style="clear:both; border-bottom: 1px solid #f5f5f5"></div>' +
-				'</div>';
+				'</div></a>';
 
 				data = "";
 			}
 		});
 
+		//Redirect to Result Page with the searched word when ENTER key is pressed.
+		$($ms).on('selectionchange', function(){
+			window.location.href = $base_url +  'result.php?s=' + $ms.getData()[0].name;
+		});
 	});
 </script>
 </html>

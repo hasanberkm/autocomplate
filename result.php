@@ -1,4 +1,5 @@
 <?php
+//Check the data and check if the data is null.
 if(isset($_GET["s"]) && strlen($_GET["s"]) > 0)
 {
 	?>
@@ -9,13 +10,11 @@ if(isset($_GET["s"]) && strlen($_GET["s"]) > 0)
 		<link rel="stylesheet" href="assets/css/magicsuggest-min.css">
 		<link rel="stylesheet" href="assets/css/main.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
 	</head>
 
 	<body>
 		<h1 class="text-center mb-5 mt-5"><u class="text-primary"><?= $_GET["s"]; ?></u> ile ilgili sonuçlar</h1>
 		<div class="container">
-
 			<div class="card-deck">
 				<?php
 				include_once("api/db.php");
@@ -42,10 +41,7 @@ if(isset($_GET["s"]) && strlen($_GET["s"]) > 0)
 			</div>
 		</div>
 	</body>
-
 	</html>
-
-
 	<?php
 }
 else
